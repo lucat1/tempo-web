@@ -2,6 +2,7 @@
 import type { FormKitNode } from '@formkit/core'
 
 import { useServer } from '@/stores/server'
+import router from '@/router'
 
 const server = useServer()
 
@@ -26,7 +27,9 @@ interface FormData {
 }
 
 const submitHandler = async ({ username, password }: FormData) => {
-  server.authenticate({ username, password })
+  if (await server.authenticate({ username, password })) {
+    router.push({ name: 'Home' })
+  }
 }
 </script>
 
