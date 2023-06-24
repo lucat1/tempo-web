@@ -17,6 +17,7 @@ const options = {
   },
 }
 
+const ONE_HOUR = 3_600_000
 
 export const useServer = defineStore('server', {
   state: () => ({
@@ -26,8 +27,14 @@ export const useServer = defineStore('server', {
   }),
   getters: {
     connected: ({ server }) => !!server,
-    // TODO: take care of expiry
-    authenticated: ({ auth }) => !!auth,
+    authenticated: ({ host, auth, server }) => {
+      if (!auth) return false
+
+      // we consider a user authenticated even if its token has expired, so long
+      // as it can be renewd
+      const expiry = new Date(auth.attributes.refresh.expires_at)
+      return !!server && !!host && (new Date().getTime() - expiry.getTime() + ONE_HOUR) < 0
+    },
 
     attributes: ({ server }) => server.attributes,
     features: ({ server }) => server.attributes.features,
@@ -37,6 +44,7 @@ export const useServer = defineStore('server', {
     forget() {
       this.server = null
     },
+
     async connect(url: URL): Promise<boolean> {
       this.server = null
       try {
@@ -51,9 +59,11 @@ export const useServer = defineStore('server', {
         return false
       }
     },
+
     logout() {
       this.auth = null
     },
+
     async authenticate(data: AuthData): boolean {
       if (!this.connected || !this.host) return false
 
@@ -70,6 +80,29 @@ export const useServer = defineStore('server', {
       const res = await req.json()
       this.auth = res.data
       return true
+    },
+
+    async token(): Promise<string> {
+      if (!this.authenticated) {
+        throw new Error("Invalid session, cannot get the auth token")
+      }
+
+      const expiry = new Date(this.auth.attributes.token.expires_at)
+      const expiresInOneHour = new Date().getTime() - expiry.getTime() + ONE_HOUR > 0
+      if (expiresInOneHour) {
+        const url = new URL(this.host)
+        url.pathname = AUTH_PATH
+
+        const req = await fetch(url, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${this.auth.attributes.refresh.value}`,
+          }
+        })
+        const res = await req.json()
+        this.auth = res.data
+      }
+      return this.auth.attributes.token.value
     },
   },
 })
