@@ -5,6 +5,8 @@ import Connect from '@/pages/Connect.vue'
 
 import Layout from '@/Layout.vue'
 import Home from '@/pages/Home.vue'
+import Search from '@/pages/Search.vue'
+import Artists from '@/pages/Artists.vue'
 import Releases from '@/pages/Releases.vue'
 
 import { useServer } from '@/stores/server'
@@ -20,11 +22,23 @@ const router = createRouter({
       component: Layout,
       children: [
         {
-          path: '',
+          path: '/',
+          name: 'Home',
           component: Home,
         },
         {
+          path: 'search',
+          name: 'Search',
+          component: Search,
+        },
+        {
+          path: 'artists',
+          name: 'Artists',
+          component: Artists,
+        },
+        {
           path: 'releases',
+          name: 'Releases',
           component: Releases,
         },
       ],
@@ -38,7 +52,7 @@ router.beforeEach((to, _, next) => {
 
   if (to.name === 'Index' && server.authenticated) next({ name: 'Layout' })
   else if (!server.authenticated && to.name != 'Connect') next({ name: 'Connect' })
-  else if (server.authenticated && to.name == 'Connect') next({ name: 'Index' })
+  else if (server.authenticated && to.name == 'Connect') next({ name: 'Layout' })
   else next()
 })
 

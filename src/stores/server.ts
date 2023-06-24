@@ -63,13 +63,18 @@ export const useServer = defineStore('server', {
     logout() {
       this.auth = null
     },
+    url(path: string): URL | null {
+      if (!this.host) { return null }
+
+      const url = new URL(this.host)
+      url.pathname = path
+      return url
+    },
 
     async authenticate(data: AuthData): boolean {
       if (!this.connected || !this.host) return false
 
-      const url = new URL(this.host)
-      url.pathname = AUTH_PATH
-
+      const url = this.url(AUTH_PATH)!
       const req = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -90,9 +95,7 @@ export const useServer = defineStore('server', {
       const expiry = new Date(this.auth.attributes.token.expires_at)
       const expiresInOneHour = new Date().getTime() - expiry.getTime() + ONE_HOUR > 0
       if (expiresInOneHour) {
-        const url = new URL(this.host)
-        url.pathname = AUTH_PATH
-
+        const url = this.url(AUTH_PATH)!
         const req = await fetch(url, {
           method: 'PATCH',
           headers: {
