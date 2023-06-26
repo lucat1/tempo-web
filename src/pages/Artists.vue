@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useInfiniteQuery } from "@tanstack/vue-query";
 
-import Image from '@/components/Image.vue'
+import Avatar from '@/components/Avatar.vue'
 
 import { paginated } from '@/fetch'
 import { ARTISTS_PATH } from '@/constants/tempo'
@@ -19,8 +19,6 @@ const {
   getNextPageParam: (last: ArtistsDocument, _) => last.data.length > 0 ? last.data[last.data.length - 1].id : null
 })
 await suspense()
-
-const imageForArtist = computed(() => data.value.pages.map(({ data }) => data.map(artist => artist.relationships?.images?.data[0])))
 </script>
 
 <template>
@@ -28,12 +26,7 @@ const imageForArtist = computed(() => data.value.pages.map(({ data }) => data.ma
     <template v-for="page, i in data.pages">
       <template v-for="artist, j in page.data" :key="artist.id">
         <router-link class="block w-32 lg:w-64 mx-8 my-4 flex-shrink-0" :to="`artists/${artist.id}`">
-          <div class="avatar " :class="!imageForArtist[i][j] && 'placeholder'">
-            <div class="w-32 lg:w-64 rounded-lg" :class="!imageForArtist[i][j] && 'bg-accent text-neutral-content'">
-              <Image v-if="imageForArtist[i][j]" :id="imageForArtist[i][j].id" />
-              <span v-else class="text-3xl">{{ artist.attributes.name[0] }}</span>
-            </div>
-          </div>
+          <Avatar :artist="artist" />
           <p class="link">{{ artist.attributes.name }}</p>
         </router-link>
       </template>

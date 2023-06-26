@@ -15,7 +15,7 @@ const routes = computed(() => [
 </script>
 
 <template>
-  <nav class="bg-neutral rounded-xl p-2">
+  <nav class="bg-neutral-focus rounded-xl p-2">
     <router-link v-for="route in routes" :to="route.to"
       class="flex flex-row items-center font-semibold rounded-xl my-1 p-2 px-4"
       :class="route.selected ? 'text-accent' : ''">
@@ -23,5 +23,5 @@ const routes = computed(() => [
       {{ route.name }}
     </router-link>
   </nav>
-  <nav class="bg-neutral rounded-xl p-2 mt-2 flex-1">nav2</nav>
+  <nav class="bg-neutral-focus rounded-xl p-2 mt-2 flex-1">nav2</nav>
 </template>
