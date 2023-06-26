@@ -8,9 +8,9 @@ const route = useRoute()
 
 const routes = computed(() => [
   { name: 'Home', to: '/', iconSolid: HomeSolid, iconOutline: HomeOutline, selected: route.name == 'Home' },
-  { name: 'Search', to: 'search', iconSolid: SearchSolid, iconOutline: SearchOutline, selected: route.name == 'Search' },
-  { name: 'Artists', to: 'artists', iconSolid: ArtistsSolid, iconOutline: ArtistsOutline, selected: route.name.includes('Artist') },
-  { name: 'Releases', to: 'releases', iconSolid: ReleasesSolid, iconOutline: ReleasesOutline, selected: route.name.includes('Release') },
+  { name: 'Search', to: '/search', iconSolid: SearchSolid, iconOutline: SearchOutline, selected: route.name == 'Search' },
+  { name: 'Artists', to: '/artists', iconSolid: ArtistsSolid, iconOutline: ArtistsOutline, selected: route.name.includes('Artist') },
+  { name: 'Releases', to: '/releases', iconSolid: ReleasesSolid, iconOutline: ReleasesOutline, selected: route.name.includes('Release') },
 ])
 </script>
 
