@@ -27,7 +27,7 @@ await suspense()
       <template v-for="artist, j in page.data" :key="artist.id">
         <router-link class="block w-32 lg:w-64 mx-8 my-4 flex-shrink-0" :to="`artists/${artist.id}`">
           <Avatar :artist="artist" />
-          <p class="link">{{ artist.attributes.name }}</p>
+          <p class="my-2 link link-primary link-hover">{{ artist.attributes.name }}</p>
         </router-link>
       </template>
       <button @click="fetchNextPage" v-if="hasNextPage">next</button>
