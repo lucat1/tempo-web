@@ -34,8 +34,8 @@ export interface Resource<
 export interface Relation<T extends ResourceType> {
   type: T
   id: string
-  meta: {
-    join_phrase: string
+  meta?: {
+    join_phrase?: string
     [k: string]: string | undefined
   }
 }
@@ -100,7 +100,7 @@ export type ServerResource = Resource<
   ServerRelated,
   typeof ServerRelatedType
 >
-export type ServerTrackDocument = Document<
+export type ServerDocument = Document<
   ServerRelated,
   typeof ServerRelatedType,
   ServerResource,

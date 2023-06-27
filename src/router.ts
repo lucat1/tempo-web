@@ -9,6 +9,7 @@ import Search from '@/pages/Search.vue'
 import Artists from '@/pages/Artists.vue'
 import Artist from '@/pages/Artist.vue'
 import Releases from '@/pages/Releases.vue'
+import Release from '@/pages/Release.vue'
 
 import { useServer } from '@/stores/server'
 
@@ -46,6 +47,11 @@ const router = createRouter({
           path: 'releases',
           name: 'Releases',
           component: Releases,
+        },
+        {
+          path: 'releases/:id',
+          name: 'Release',
+          component: Release,
         },
       ],
 

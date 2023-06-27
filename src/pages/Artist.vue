@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useQuery } from "@tanstack/vue-query";
 
 import Avatar from '@/components/Avatar.vue'
+import Release from '@/components/Release.vue'
 import Dot from '@/components/Dot.vue'
 
 import fetch from '@/fetch'
@@ -22,8 +23,25 @@ const {
 await suspense()
 
 const expanded = ref(false)
-const tracks = computed(() => data.value.data.relationships?.tracks?.data)
-const releases = computed(() => data.value.data.relationships?.releases?.data)
+type DiscographyFilter = 'all' | 'albums' | 'singles'
+const discography = ref<DiscographyFilter>('all')
+
+const relationshipReleases = computed(() => data.value.data.relationships?.releases?.data || [])
+const relationshipTracks = computed(() => data.value.data.relationships?.tracks?.data || [])
+
+const releases = computed(() =>
+  relationshipReleases.value.map(({ id, type }) => data.value.included.find(({ id: _id, type: _type }) => _id == id && _type == type))
+)
+const filteredReleases = computed(() => releases.value.filter(({ attributes }) => {
+  switch (discography.value) {
+    case 'all':
+      return true;
+    case 'albums':
+      return attributes.release_type == 'album'
+    case 'singles':
+      return attributes.release_type == 'single'
+  }
+}))
 </script>
 
 <template>
@@ -33,9 +51,13 @@ const releases = computed(() => data.value.data.relationships?.releases?.data)
       <div class="flex flex-1 flex-col mx-6">
         <h1 class="text-3xl font-bold my-4">{{ data.data.attributes.name }}</h1>
         <div class="flex flex-row items-center">
-          <span v-if="releases">{{ releases.length }} releases</span>
-          <Dot />
-          <span v-if="tracks">{{ tracks.length }} tracks</span>
+          <template v-if="relationshipReleases">
+            <span>{{ relationshipReleases.length }} release{{ relationshipReleases.length > 1 ?
+              's' : '' }}</span>
+            <Dot />
+          </template>
+          <span v-if="relationshipTracks">{{ relationshipTracks.length }} track{{ relationshipTracks.length > 1 ?
+            's' : '' }}</span>
         </div>
       </div>
     </section>
@@ -45,6 +67,21 @@ const releases = computed(() => data.value.data.relationships?.releases?.data)
         </p>
       </div>
       <a class="link my-2" @click="expanded = !expanded">{{ expanded ? 'Collapse' : 'Read more' }}</a>
+    </section>
+    <section class="flex flex-col my-4">
+      <h2 class="text-xl font-bold">Discography</h2>
+      <div class="flex flex-row my-4">
+        <button class="btn btn-sm rounded-full mr-2" :class="discography == 'all' ? 'btn-primary' : 'btn-neutral'"
+          @click="discography = 'all'">All
+          releases</button>
+        <button class="btn btn-sm rounded-full mx-2" :class="discography == 'albums' ? 'btn-primary' : 'btn-neutral'"
+          @click="discography = 'albums'">Albums</button>
+        <button class="btn btn-sm rounded-full mx-2" :class="discography == 'singles' ? 'btn-primary' : 'btn-neutral'"
+          @click="discography = 'singles'">Singles</button>
+      </div>
+      <div class="flex flex-row flex-wrap">
+        <Release v-for="release in filteredReleases" :key="release.id" :release="release" :included="data.included" />
+      </div>
     </section>
   </main>
 </template>
