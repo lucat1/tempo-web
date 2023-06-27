@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+
 import { HomeIcon as HomeSolid, MagnifyingGlassIcon as SearchSolid, UserIcon as ArtistsSolid, RectangleStackIcon as ReleasesSolid } from '@heroicons/vue/24/solid'
 import { HomeIcon as HomeOutline, MagnifyingGlassIcon as SearchOutline, UserIcon as ArtistsOutline, RectangleStackIcon as ReleasesOutline } from '@heroicons/vue/24/outline'
 
