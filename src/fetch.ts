@@ -73,4 +73,20 @@ export const fetchBlob = (path: String, query: TempoQuery = {}, method = 'GET'):
   }
 }
 
+export const fetchPut = async <T, B>(path: String, body: B): Promise<T> => {
+  const server = useServer()
+
+  const token = await server.token()
+  const res = await fetch(server.url(path), {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  const json: T = await res.json()
+  return json
+}
+
 export default fetchJson

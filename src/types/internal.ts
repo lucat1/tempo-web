@@ -42,3 +42,36 @@ export type DirectoriesDocument = MultiDocument<
   DirectoryResource,
   DirectoryResource
 >
+
+export interface ImportAttributes {
+  id: string
+}
+
+export const ImportRelatedValue = {
+  directories: "directories",
+} as const
+
+export type ImportRelated = ObjectValues<typeof ImportRelatedValue>
+
+export const ImportRelatedType = {
+  [ImportRelatedValue.directories]: ResourceTypeValue.directories,
+} as const
+
+export type ImportResource = Resource<
+  typeof ResourceTypeValue.track,
+  ImportAttributes,
+  ImportRelated,
+  typeof ImportRelatedType
+>
+export type ImportDocument = Document<
+  ImportRelated,
+  typeof ImportRelatedType,
+  ImportResource,
+  ImportResource
+>
+export type ImportsDocument = MultiDocument<
+  ImportRelated,
+  typeof ImportRelatedType,
+  ImportResource,
+  ImportResource
+>

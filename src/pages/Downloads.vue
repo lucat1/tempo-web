@@ -3,9 +3,10 @@ import { computed, ref } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useQuery } from "@tanstack/vue-query";
 
-import fetch from '@/fetch'
-import { DOWNLOADS_PATH, DOWNLOAD_PATH } from '@/constants/internal'
-import type { DirectoriesDocument } from '@/types/internal'
+import fetch, { fetchPut } from '@/fetch'
+import router from '@/router'
+import { DOWNLOADS_PATH, DOWNLOAD_PATH, IMPORTS_PATH } from '@/constants/internal'
+import type { DirectoriesDocument, ImportDocument } from '@/types/internal'
 
 const { params: { id } } = useRoute()
 
@@ -25,6 +26,17 @@ const directories = computed(() => {
     return doc.value.included.find(({ id: _id, type: _type }) => _id == id && _type == type) || {}
   })
 })
+
+const imprt = async (directory: string) => {
+  const importDoc: ImportDocument = await fetchPut(IMPORTS_PATH, {
+    data: {
+      type: "import",
+      attributes: { directory }
+    }
+  });
+  console.log(importDoc.data.id)
+  router.push({ name: 'Import', params: { id: importDoc.data.id } })
+}
 </script>
 
 <template>
@@ -52,7 +64,7 @@ const directories = computed(() => {
             }}</router-link>
           </td>
           <td>-</td>
-          <td><button class="btn">Import</button></td>
+          <td><button @click="imprt(dir.id)" class="btn">Import</button></td>
         </tr>
         <tr v-for="file in doc.data.attributes?.files" :key="file.path">
           <td>{{ file.name }}</td>
