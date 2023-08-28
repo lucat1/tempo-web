@@ -10,6 +10,7 @@ import Artists from '@/pages/Artists.vue'
 import Artist from '@/pages/Artist.vue'
 import Releases from '@/pages/Releases.vue'
 import Release from '@/pages/Release.vue'
+import Downloads from '@/pages/Downloads.vue'
 
 import { useServer } from '@/stores/server'
 
@@ -52,6 +53,12 @@ const router = createRouter({
           path: 'releases/:id',
           name: 'Release',
           component: Release,
+        },
+        {
+          path: 'downloads/:id',
+          alias: 'downloads',
+          name: 'Downloads',
+          component: Downloads,
         },
       ],
 

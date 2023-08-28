@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useInfiniteQuery } from "@tanstack/vue-query";
 
 import Avatar from '@/components/Avatar.vue'

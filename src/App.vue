@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen h-screen flex">
     <Suspense>
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
 
       <!-- TODO spinner -->
       <template #fallback>
