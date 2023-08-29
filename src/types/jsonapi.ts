@@ -9,7 +9,10 @@ export const ResourceTypeValue = {
   track: "track",
   release: "release",
   medium: "medium",
-  image: "image"
+  image: "image",
+
+  directory: "directory",
+  import: "import",
 } as const
 export type ResourceType = ObjectValues<typeof ResourceTypeValue>
 

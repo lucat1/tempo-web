@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { computed } from 'vue';
+import { useRoute } from 'vue-router'
 import { useQuery } from "@tanstack/vue-query";
 
 import fetch, { fetchPut } from '@/fetch'

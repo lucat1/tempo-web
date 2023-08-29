@@ -1,5 +1,6 @@
 import type { ObjectValues, Resource, Document, MultiDocument } from './jsonapi'
 import { ResourceTypeValue } from './jsonapi'
+import { ArtistResource, MediumResource, ReleaseResource, TrackResource } from './tempo'
 
 export interface DirectoryAttributes {
   id: string
@@ -25,7 +26,7 @@ export const DirectoryRelatedType = {
 } as const
 
 export type DirectoryResource = Resource<
-  typeof ResourceTypeValue.track,
+  typeof ResourceTypeValue.directory,
   DirectoryAttributes,
   DirectoryRelated,
   typeof DirectoryRelatedType
@@ -48,17 +49,23 @@ export interface ImportAttributes {
 }
 
 export const ImportRelatedValue = {
-  directories: "directories",
+  releases: "releases",
+  mediums: "mediums",
+  tracks: "tracks",
+  artists: "artists",
 } as const
 
 export type ImportRelated = ObjectValues<typeof ImportRelatedValue>
 
 export const ImportRelatedType = {
-  [ImportRelatedValue.directories]: ResourceTypeValue.directories,
+  [ImportRelatedValue.releases]: ResourceTypeValue.release,
+  [ImportRelatedValue.mediums]: ResourceTypeValue.medium,
+  [ImportRelatedValue.tracks]: ResourceTypeValue.track,
+  [ImportRelatedValue.artists]: ResourceTypeValue.artist,
 } as const
 
 export type ImportResource = Resource<
-  typeof ResourceTypeValue.track,
+  typeof ResourceTypeValue.import,
   ImportAttributes,
   ImportRelated,
   typeof ImportRelatedType
@@ -67,11 +74,11 @@ export type ImportDocument = Document<
   ImportRelated,
   typeof ImportRelatedType,
   ImportResource,
-  ImportResource
+  ReleaseResource | MediumResource | TrackResource | ArtistResource
 >
 export type ImportsDocument = MultiDocument<
   ImportRelated,
   typeof ImportRelatedType,
   ImportResource,
-  ImportResource
+  ReleaseResource | MediumResource | TrackResource | ArtistResource
 >
