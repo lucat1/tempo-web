@@ -64,8 +64,10 @@ const releaseTitle = (release: ReleaseResource) => {
   return `${release.attributes.title} (${release.id})`
 }
 
-const selectRelease = (e: Event) => {
-  mutate({ kind: 'selected_release', value: e.target.value })
+const selectRelease = (event: Event) => {
+  const index = event.target!.selectedIndex;
+  const element = event.target!.children[index];
+  mutate({ kind: 'selected_release', value: element.getAttribute('data-id') })
 }
 </script>
 
@@ -102,10 +104,8 @@ const selectRelease = (e: Event) => {
             </div>
             <select v-if="selectedRelease" className="select select-secondary mx-2" :value="releaseTitle(selectedRelease)"
               :disabled="isLoading || isMutationLoading" @change="selectRelease">
-              <option disabled>
-                {{ releaseTitle(selectedRelease) }}
-              </option>
-              <option v-for="release, i in releases" :key="i">{{ releaseTitle(release) }}</option>
+              <option v-for="release, i in releases" :key="i" :disabled="i == selectedReleaseId"
+                :selected="i == selectedReleaseId" :data-id="release.id">{{ releaseTitle(release) }}</option>
             </select>
           </div>
         </div>
