@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router'
 import { useQuery } from "@tanstack/vue-query";
 
-import fetch, { fetchPut } from '@/fetch'
+import fetch, { fetchMethod } from '@/fetch'
 import router from '@/router'
 import { DOWNLOADS_PATH, DOWNLOAD_PATH, IMPORTS_PATH } from '@/constants/internal'
 import type { DirectoriesDocument, ImportDocument } from '@/types/internal'
@@ -28,13 +28,12 @@ const directories = computed(() => {
 })
 
 const imprt = async (directory: string) => {
-  const importDoc: ImportDocument = await fetchPut(IMPORTS_PATH, {
+  const importDoc: ImportDocument = await fetchMethod(IMPORTS_PATH, {
     data: {
       type: "import",
       attributes: { directory }
     }
   });
-  console.log(importDoc.data.id)
   router.push({ name: 'Import', params: { id: importDoc.data.id } })
 }
 </script>

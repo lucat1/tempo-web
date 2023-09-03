@@ -4,7 +4,7 @@ import { computed } from 'vue'
 import type { ArtistResource, Relation, ResourceTypeValue } from '@/types/tempo'
 
 
-const { artists: relationshipArtists, included } = defineProps<{ artists: Relation<ResourceTypeValue.artist>, included: ArtistResource[] }>()
+const { artists: relationshipArtists, included, musicbrainz } = defineProps<{ artists: Relation<ResourceTypeValue.artist>, included: ArtistResource[], musicbrainz: bool | undefined }>()
 const artists = computed(() =>
   relationshipArtists.map(({ id, type, meta }) => {
     let obj = included.find(({ id: _id, type: _type }) => _id == id && _type == type) || {}
@@ -16,8 +16,11 @@ const artists = computed(() =>
 <template>
   <template v-for="artist in artists">
     {{ artist.meta.join_phrase }}
-    <router-link class="link link-primary link-hover" :to="`/artists/${artist.id}`">{{
+    <router-link v-if="!musicbrainz" class="link link-primary link-hover" :to="`/artists/${artist.id}`">{{
       artist.attributes.name
     }}</router-link>
+    <a v-else class="link link-primary" target="_blank" :href="`https://musicbrainz.org/artist/${artist.id}`">{{
+      artist.attributes.name
+    }}</a>
   </template>
 </template>

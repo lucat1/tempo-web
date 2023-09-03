@@ -73,15 +73,15 @@ export const fetchBlob = (path: String, query: TempoQuery = {}, method = 'GET'):
   }
 }
 
-export const fetchPut = async <T, B>(path: String, body: B): Promise<T> => {
+export const fetchMethod = async <T, B>(method: 'PUT' | 'PATCH' | 'POST', path: String, body: B): Promise<T> => {
   const server = useServer()
 
   const token = await server.token()
   const res = await fetch(server.url(path), {
-    method: 'PUT',
+    method,
     headers: {
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/vnd.api+json'
     },
     body: JSON.stringify(body)
   });

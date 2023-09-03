@@ -44,8 +44,18 @@ export type DirectoriesDocument = MultiDocument<
   DirectoryResource
 >
 
+export interface Cover {
+  provider: "Itunes" | "Deezer" | "CoverArtArchive",
+  url: string
+  width: number,
+  height: number,
+  title: string
+  artist: string
+}
+
 export interface ImportAttributes {
   id: string
+  covers: Cover[]
 }
 
 export const ImportRelatedValue = {
