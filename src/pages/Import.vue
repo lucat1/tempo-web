@@ -73,47 +73,61 @@ const selectRelease = (e: Event) => {
   <Error v-if="isError" :error="error" />
   <Loader v-if="isLoading" />
   <div v-if="!isLoading && !isError" className="flex flex-col container mx-auto px-8 py-4">
-    <section className="grid grid-cols-1 lg:grid-cols-[auto,1fr,auto] gap-4">
-      <div v-if="!!selectedCover" class="card w-64 bg-base-100 shadow-xl">
-        <figure><img :src="selectedCover.url" :alt="`${selectedCover.artist} - ${selectedCover.title}`" /></figure>
-        <div class="card-body p-4">
-          <p>{{ selectedCover.artist }} - {{ selectedCover.title }}</p>
-          <div class="card-actions overflow-hidden">
-            <select className="select select-secondary overflow-hidden truncate" :value="coverTitle(selectedCover)"
-              :disabled="isLoading || isMutationLoading" @change="selectCover">
-              <option v-for="cover, i in covers" :key="i" :disabled="i == selectedCoverId" :selected="i == selectedCoverId">{{ coverTitle(cover) }}</option>
+    <section className="grid grid-cols-1 lg:grid-cols-[10fr,auto] gap-4">
+      <div>
+        <h2 class="my-2 px-2">Release</h2>
+        <div v-if="!!selectedRelease" class="card bg-base-100 shadow-xl w-full">
+          <div class="card-body p-4">
+            <div className="py-2">
+              <h1 className="text-lg py-2">Identified as</h1>
+              <h2 className="text-md">
+                <template v-for="artist, i in sourceRelease.artists" :key="i">
+                  <span className="text-primary">{{ artist }}</span>
+                  <span v-if="i != sourceRelease.artists.length - 1">,</span>
+                </template>
+                - {{ sourceRelease.title }} <span class="text-sm">({{ sourceTracks.length }} tracks)</span>
+              </h2>
+              <h2 className="text-lg py-2">Tagging as</h2>
+              <h2 className="text-md">
+                <ArtistNames v-if="!!selectedReleaseArtists" :included="doc.included" :artists="selectedReleaseArtists"
+                  :musicbrainz="true" />
+                -
+                <a className="link" :href="`https://musicbrainz.org/release/${selectedRelease.id}`" target="_blank">
+                  {{ selectedRelease.attributes.title }}
+                </a> <span class="text-sm">({{ selectedReleaseMediums.reduce((count, med) => count +
+                  med.attributes.tracks,
+                  0)
+                }} tracks)</span>
+              </h2>
+            </div>
+            <select v-if="selectedRelease" className="select select-secondary mx-2" :value="releaseTitle(selectedRelease)"
+              :disabled="isLoading || isMutationLoading" @change="selectRelease">
+              <option disabled>
+                {{ releaseTitle(selectedRelease) }}
+              </option>
+              <option v-for="release, i in releases" :key="i">{{ releaseTitle(release) }}</option>
             </select>
           </div>
         </div>
       </div>
+
+      <div>
+        <h2 class="my-2 px-2">Cover</h2>
+        <div v-if="!!selectedCover" class="card w-64 bg-base-100 shadow-xl">
+          <figure><img :src="selectedCover.url" :alt="`${selectedCover.artist} - ${selectedCover.title}`" /></figure>
+          <div class="card-body p-4">
+            <p>{{ selectedCover.artist }} - {{ selectedCover.title }}</p>
+            <div class="card-actions overflow-hidden">
+              <select className="select select-secondary overflow-hidden truncate" :value="coverTitle(selectedCover)"
+                :disabled="isLoading || isMutationLoading" @change="selectCover">
+                <option v-for="cover, i in covers" :key="i" :disabled="i == selectedCoverId"
+                  :selected="i == selectedCoverId">{{ coverTitle(cover) }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    <div className="py-2">
-      <h1 className="text-2xl py-2">Identified as</h1>
-      <h2 className="text-xl">
-        <template v-for="artist, i in sourceRelease.artists" :key="i">
-          <span className="text-primary">{{ artist }}</span>
-          <span v-if="i != sourceRelease.artists.length - 1">,</span>
-        </template>
-        - {{ sourceRelease.title }} <span class="text-sm">({{ sourceTracks.length }} tracks)</span>
-      </h2>
-      <h2 className="text-2xl py-2">Tagging as</h2>
-      <h2 className="text-xl">
-        <ArtistNames v-if="!!selectedReleaseArtists" :included="doc.included" :artists="selectedReleaseArtists"
-          :musicbrainz="true" />
-        -
-        <a className="link" :href="`https://musicbrainz.org/release/${selectedRelease.id}`" target="_blank">
-          {{ selectedRelease.attributes.title }}
-        </a> <span class="text-sm">({{ selectedReleaseMediums.reduce((count, med) => count + med.attributes.tracks, 0)
-        }} tracks)</span>
-      </h2>
-    </div>
-    <select v-if="selectedRelease" className="select select-secondary mx-2" :value="releaseTitle(selectedRelease)"
-      :disabled="isLoading || isMutationLoading" @change="selectRelease">
-      <option disabled>
-        {{ releaseTitle(selectedRelease) }}
-      </option>
-      <option v-for="release, i in releases" :key="i">{{ releaseTitle(release) }}</option>
-    </select>
     <!-- <main className="columns-1 lg:columns-2"> -->
     <!--   <section> -->
     <!--     <h3 className="text-lg">Source tracks</h3> -->
