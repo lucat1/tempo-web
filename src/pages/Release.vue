@@ -35,7 +35,7 @@ const relationshipTracksByMedium = computed(() => mediums.value.map(medium => me
 const relationshipTracks = computed(() => mediums.value.map(medium => medium.relationships?.tracks?.data || []).flat())
 const tracksByMedium = computed(() =>
   relationshipTracksByMedium.value.map(tracks => {
-    return tracks.map(({ id, type }) => data.value.included.find(({ id: _id, type: _type }) => _id == id && _type == type))
+    return tracks.map(({ id, type }) => data.value.included.find(({ id: _id, type: _type }) => _id == id && _type == type)).sort((t1, t2) => t1.attributes.track > t2.attributes.track)
   })
 )
 const tracks = computed(() =>

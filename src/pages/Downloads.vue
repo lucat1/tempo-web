@@ -28,7 +28,7 @@ const directories = computed(() => {
 })
 
 const imprt = async (directory: string) => {
-  const importDoc: ImportDocument = await fetchMethod(IMPORTS_PATH, {
+  const importDoc: ImportDocument = await fetchMethod('PUT', IMPORTS_PATH, {
     data: {
       type: "import",
       attributes: { directory }
