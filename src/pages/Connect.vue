@@ -46,7 +46,7 @@ const submitHandler = async ({ username, password }: FormData) => {
           <span v-if="server.connected">{{ server.attributes.server }} v{{ server.attributes.server_version }}</span>
           <span v-else>Not connected</span>
         </div>
-        <FormKit type="text" name="username" label="Your username" placeholder="John Doe" help="Your account username"
+        <FormKit type="text" name="username" label="Username" placeholder="Username" help="Your account username"
           :validation="server.authRequired ? 'required' : ''" :disabled="!server.authRequired" />
         <FormKit type="password" name="password" label="Password" :validation="server.authRequired ? 'required' : ''"
           :disabled="!server.authRequired" :validation-messages="{
@@ -56,7 +56,7 @@ const submitHandler = async ({ username, password }: FormData) => {
 
       <div class="divider"></div>
       <div class="flex justify-end">
-        <FormKit type="submit" label="Register" />
+        <FormKit type="submit" label="Login" />
       </div>
     </FormKit>
   </main>
