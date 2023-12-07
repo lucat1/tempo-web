@@ -20,7 +20,7 @@ module.exports = {
         'layout': '20rem 1fr 20rem',
       },
       gridTemplateRows: {
-        'app': 'minmax(0, auto), 6rem',
+        'app': 'minmax(0, auto), 5.5rem',
       }
     }
   },

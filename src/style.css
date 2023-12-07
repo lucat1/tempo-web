@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .btn-smd {
-  @apply p-2 h-10 min-h-max w-10;
+  @apply p-2 h-9 min-h-max w-9;
 }

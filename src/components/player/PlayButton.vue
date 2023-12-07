@@ -6,7 +6,7 @@ const { playing, disabled } = defineProps({ playing: Boolean, disabled: Boolean 
 
 <template>
   <button :disabled="disabled" class="btn btn-smd btn-circle h-2 btn-primary p-2 disabled:bg-neutral mx-2">
-    <PauseIcon v-if="playing" class="w-5 h-5" />
-    <PlayIcon v-else class="w-5 h-5" />
+    <PauseIcon v-if="playing" class="w-4 h-4" />
+    <PlayIcon v-else class="w-4 h-4" />
   </button>
 </template>
