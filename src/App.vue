@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import Player from '@/Player.vue'
+</script>
+
 <template>
-  <div class="w-screen h-screen flex">
+  <div class="w-screen h-screen overflow-hidden grid grid-cols-1 grid-rows-app">
     <Suspense>
       <router-view :key="$route.fullPath"></router-view>
 
@@ -9,5 +13,6 @@
         </main>
       </template>
     </Suspense>
+    <Player />
   </div>
 </template>

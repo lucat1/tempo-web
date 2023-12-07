@@ -17,11 +17,10 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         'layout-mobile': '',
-        'layout': '22rem 1fr 22rem',
+        'layout': '20rem 1fr 20rem',
       },
       gridTemplateRows: {
-        'layout-mobile': '',
-        'layout': '1fr 6rem',
+        'app': 'minmax(0, auto), 6rem',
       }
     }
   },
