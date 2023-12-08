@@ -2,16 +2,14 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { HomeIcon as HomeSolid, MagnifyingGlassIcon as SearchSolid, UserIcon as ArtistsSolid, RectangleStackIcon as ReleasesSolid } from '@heroicons/vue/24/solid'
-import { HomeIcon as HomeOutline, MagnifyingGlassIcon as SearchOutline, UserIcon as ArtistsOutline, RectangleStackIcon as ReleasesOutline } from '@heroicons/vue/24/outline'
-
 const route = useRoute()
 
+// NOTE: these classes have to be safelisted in tailwind's config
 const routes = computed(() => [
-  { name: 'Home', to: '/', iconSolid: HomeSolid, iconOutline: HomeOutline, selected: route.name == 'Home' },
-  { name: 'Search', to: '/search', iconSolid: SearchSolid, iconOutline: SearchOutline, selected: route.name == 'Search' },
-  { name: 'Artists', to: '/artists', iconSolid: ArtistsSolid, iconOutline: ArtistsOutline, selected: route.name.includes('Artist') },
-  { name: 'Releases', to: '/releases', iconSolid: ReleasesSolid, iconOutline: ReleasesOutline, selected: route.name.includes('Release') },
+  { name: 'Home', to: '/', iconSolid: 'fluent--home-24-filled', iconOutline: 'fluent--home-24-regular', selected: route.name == 'Home' },
+  { name: 'Search', to: '/search', iconSolid: 'fluent--search-16-filled', iconOutline: 'fluent--search-16-regular', selected: route.name == 'Search' },
+  { name: 'Artists', to: '/artists', iconSolid: '', iconOutline: '', selected: route.name.includes('Artist') },
+  { name: 'Releases', to: '/releases', iconSolid: '', iconOutline: '', selected: route.name.includes('Release') },
 ])
 </script>
 
@@ -20,7 +18,7 @@ const routes = computed(() => [
     <router-link v-for="route in routes" :to="route.to"
       class="flex flex-row items-center font-semibold rounded-xl my-1 p-2 px-4"
       :class="route.selected ? 'text-accent' : ''">
-      <component :is="route.selected ? route.iconSolid : route.iconOutline" class="w-7 h-7 mr-4" />
+      <span :class="`icon-[${route.selected ? route.iconSolid : route.iconOutline}]`" class="w-7 h-7 mr-4" />
       {{ route.name }}
     </router-link>
   </nav>

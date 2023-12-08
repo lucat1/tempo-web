@@ -8,9 +8,6 @@ dependencies:
   '@formkit/vue':
     specifier: ^0.17.3
     version: 0.17.3(tailwindcss@3.3.2)(vue@3.3.4)
-  '@heroicons/vue':
-    specifier: ^2.0.18
-    version: 2.0.18(vue@3.3.4)
   '@tanstack/vue-query':
     specifier: ^4.29.15
     version: 4.29.15(vue@3.3.4)
@@ -46,6 +43,18 @@ devDependencies:
   '@formkit/themes':
     specifier: ^0.17.3
     version: 0.17.3(tailwindcss@3.3.2)
+  '@iconify-json/eva':
+    specifier: ^1.1.9
+    version: 1.1.9
+  '@iconify-json/fluent':
+    specifier: ^1.1.43
+    version: 1.1.43
+  '@iconify-json/mdi':
+    specifier: ^1.1.60
+    version: 1.1.60
+  '@iconify/tailwind':
+    specifier: ^0.1.4
+    version: 0.1.4
   '@tailwindcss/typography':
     specifier: ^0.5.9
     version: 0.5.9(tailwindcss@3.3.2)
@@ -404,13 +413,33 @@ packages:
       - windicss
     dev: false
 
-  /@heroicons/vue@2.0.18(vue@3.3.4):
-    resolution: {integrity: sha512-BcTC9nq2TkwNSfQuqo96J7ehx4etezypc2YeTq7KsXWxrcrerhkgjLrxGRBnStN0wrXo0Gv4BInybqz5uBG6Cw==}
-    peerDependencies:
-      vue: '>= 3'
+  /@iconify-json/eva@1.1.9:
+    resolution: {integrity: sha512-9lAnadjw9txXMJ7LE30wxhnOfhb6AMF8EuRKRGFz3ue8oZ4Ld5459bc0ZIRwI271UJxylZybXO7ipr7sOb781Q==}
     dependencies:
-      vue: 3.3.4
-    dev: false
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/fluent@1.1.43:
+    resolution: {integrity: sha512-HrEHb2cuCmQ1XoNScALDpyzkuwJMlHjxgdnS/tri2tH02jl/CZGHgzLEpkSPBuIbgPhhCnBap0nP2aK6P4A5Hw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/mdi@1.1.60:
+    resolution: {integrity: sha512-oDb+ilwHIccaX/iHEQxcsd9ULRXi14T8gVrx1XivTkMAmVLGzPD/u9GIFNngvF1P/D0xBx68l2COWwsLlker5Q==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/tailwind@0.1.4:
+    resolution: {integrity: sha512-U7RzcU2fkwOfMDsGQ3mtpLIaApSnqb+vgcJJknPPbg8/NF5s7tI1o5otEMfcpnLGk4PbYB8bxmKTz7IJVUlU2Q==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/types@2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+    dev: true
 
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}

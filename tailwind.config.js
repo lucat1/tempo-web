@@ -1,3 +1,6 @@
+const { addDynamicIconSelectors } = require('@iconify/tailwind');
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./index.html", './formkit.config.ts', "./src/**/*.vue"],
   daisyui: {
@@ -28,5 +31,12 @@ module.exports = {
     require("daisyui"),
     require('@formkit/tailwindcss').default,
     require('@tailwindcss/typography'),
+    addDynamicIconSelectors()
   ],
+  safelist: [
+    'icon-[fluent--home-24-regular]',
+    'icon-[fluent--home-24-filled]',
+    'icon-[fluent--search-16-regular]',
+    'icon-[fluent--search-16-filled]'
+  ]
 }

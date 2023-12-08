@@ -4,8 +4,6 @@ import { useRoute } from 'vue-router'
 import { useQuery } from "@tanstack/vue-query";
 import formatDuration from 'format-duration'
 
-import { HeartIcon as HeartOutline } from '@heroicons/vue/24/outline'
-
 import Image from '@/components/Image.vue'
 import Dot from '@/components/Dot.vue'
 import ArtistNames from '@/components/ArtistNames.vue'
@@ -83,7 +81,7 @@ const duration = computed(() => tracks.value.reduce((counter, track) => counter 
             <th>#</th>
             <th>Title</th>
             <th>
-              <HeartOutline class="w-4 h-4" />
+              <span class="w-4 h-4 icon-[eva--heart-outline]" />
             </th>
             <th>Artists</th>
             <th>Duration</th>
@@ -94,7 +92,7 @@ const duration = computed(() => tracks.value.reduce((counter, track) => counter 
             <th>{{ track.attributes.track }}</th>
             <td class="truncate">{{ track.attributes.title }}</td>
             <td>
-              <HeartOutline class="w-4 h-4" />
+              <span class="w-4 h-4 icon-[eva--heart-outline]" />
             </td>
             <td class="truncate">
               <ArtistNames v-if="track.relationships?.artists?.data" :included="data.included"
