@@ -34,9 +34,13 @@ module.exports = {
     addDynamicIconSelectors()
   ],
   safelist: [
-    'icon-[fluent--home-24-regular]',
-    'icon-[fluent--home-24-filled]',
+    'icon-[fluent--home-16-regular]',
+    'icon-[fluent--home-16-filled]',
     'icon-[fluent--search-16-regular]',
-    'icon-[fluent--search-16-filled]'
+    'icon-[fluent--search-16-filled]',
+    'icon-[fluent--person-16-regular]',
+    'icon-[fluent--person-16-filled]',
+    'icon-[fluent--library-16-regular]',
+    'icon-[fluent--library-16-filled]',
   ]
 }
