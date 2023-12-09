@@ -96,7 +96,10 @@ const selectRelease = (event: Event) => {
                 -
                 <a className="link" :href="`https://musicbrainz.org/release/${selectedRelease.id}`" target="_blank">
                   {{ selectedRelease.attributes.title }}
-                </a> <span class="text-sm">({{ selectedReleaseMediums.reduce((count, med) => count +
+                </a>
+                <span v-if="selectedRelease.attributes.disambiguation"> ({{ selectedRelease.attributes.disambiguation
+                }}) </span>
+                <span class="text-sm">({{ selectedReleaseMediums.reduce((count, med) => count +
                   med.attributes.tracks,
                   0)
                 }} tracks)</span>

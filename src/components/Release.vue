@@ -17,7 +17,7 @@ const relationshipArtists = computed(() => release.relationships?.artists?.data)
       </div>
     </div>
     <a class="mt-3 w-32 lg:w-48 font-semibold truncate text-ellipsis overflow-hidden">{{ release.attributes.title
-    }}</a>
+    }}<span v-if="release.attributes.disambiguation"> ({{ release.attributes.disambiguation }})</span></a>
     <p class="mt-3 w-32 lg:w-48 font-semibold truncate text-ellipsis overflow-hidden">
       <ArtistNames :included="included" :artists="relationshipArtists" />
     </p>

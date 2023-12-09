@@ -52,7 +52,10 @@ const duration = computed(() => tracks.value.reduce((counter, track) => counter 
       </div>
 
       <div class="flex flex-1 flex-col mx-6">
-        <h1 class="text-3xl font-bold my-4">{{ data.data.attributes.title }}</h1>
+        <h1 class="text-3xl font-bold my-4">
+          {{ data.data.attributes.title }}
+          <span v-if="data.data.attributes.disambiguation">({{ data.data.attributes.disambiguation }})</span>
+        </h1>
         <span class="text-xl">
           <ArtistNames v-if="relationshipArtists" :included="data.included" :artists="relationshipArtists" />
         </span>

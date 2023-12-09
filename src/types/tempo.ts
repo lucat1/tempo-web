@@ -110,6 +110,7 @@ export type ArtistsDocument = MultiDocument<
 export interface ReleaseAttributes {
   id: string
   title: string
+  disambiguation?: string
   disctotal: number
   tracktotal: number
   genres: string[]
