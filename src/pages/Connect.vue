@@ -7,7 +7,8 @@ import router from '@/router'
 const server = useServer()
 
 const checkServer = async function (node: FormKitNode) {
-  server.forget()
+  if (server.forget)
+    server.forget()
   try {
     return server.connect(new URL(node.value as string))
   } catch (_) {

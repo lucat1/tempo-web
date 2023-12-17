@@ -9,17 +9,19 @@ import Dot from '@/components/Dot.vue'
 import ArtistNames from '@/components/ArtistNames.vue'
 
 import fetch from '@/fetch'
+import { usePlayer } from '@/stores/player'
 import { RELEASE_PATH } from '@/constants/tempo'
-import type { ReleaseDocument } from '@/types/tempo'
+import type { ReleaseDocument, TrackResource } from '@/types/tempo'
 
 const { params: { id } } = useRoute()
+const player = usePlayer()
 
 const {
   data,
   suspense,
 } = useQuery({
   queryKey: ['releases', id],
-  queryFn: fetch<ReleaseDocument>(RELEASE_PATH(id), { include: ['mediums', 'mediums.tracks', 'mediums.tracks.artists', 'artists'] }),
+  queryFn: fetch<ReleaseDocument>(RELEASE_PATH(id), { include: ['artists', 'genres', 'mediums', 'mediums.tracks', 'mediums.tracks.artists', 'mediums.tracks.genres'] }),
 })
 await suspense()
 
@@ -40,6 +42,10 @@ const tracks = computed(() =>
   relationshipTracks.value.map(({ id, type }) => data.value.included.find(({ id: _id, type: _type }) => _id == id && _type == type))
 )
 const duration = computed(() => tracks.value.reduce((counter, track) => counter + track.attributes.duration, 0))
+
+const play = (track: TrackResource) => {
+  player.play([track])
+}
 </script>
 
 <template>
@@ -91,7 +97,7 @@ const duration = computed(() => tracks.value.reduce((counter, track) => counter 
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-base-100" v-for="track in tracksByMedium[i]">
+          <tr class="hover:bg-base-100" v-for="track in tracksByMedium[i]" @click="play(track)">
             <th>{{ track.attributes.track }}</th>
             <td class="truncate">{{ track.attributes.title }}</td>
             <td>

@@ -47,7 +47,7 @@ const fetchJson = <T>(path: String, query: TempoQuery = {}, method = 'GET'): Fet
 
   return async (): Promise<T> => {
     const token = await server.token()
-    const res = await fetch(url, { method, headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch(url, { method, headers: { 'Authorization': `Bearer ${token}` }, mode: 'cors' });
     const json: T = await res.json()
     return json
   }
