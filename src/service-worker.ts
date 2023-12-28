@@ -16,6 +16,7 @@ let state = defaultState
 const channel = new BroadcastChannel("sw")
 
 channel.addEventListener("message", ({ data }: { data: Message }) => {
+  console.log(data)
   switch (data.action) {
     case "state":
       gotOneState = true
@@ -33,28 +34,42 @@ channel.addEventListener("message", ({ data }: { data: Message }) => {
   }
 })
 
+const sleep = (time: number) => new Promise(r => setTimeout(r, time));
+
 self.addEventListener("activate", async () => {
   console.log("Service worker activating");
   state = defaultState
   gotOneState = false
-  const sleep = (time: number) => new Promise(r => setTimeout(r, time));
   while (!gotOneState) {
     channel.postMessage({ action: "requestState" })
     await sleep(500)
   }
 
   clients.claim();
-  while (true) {
-    channel.postMessage({ action: "requestState" })
-    await sleep(1000 * 3 * 60) // update the state every 3 minutes
-  }
 });
 
-self.addEventListener("fetch", function({ request: req, respondWith }) {
-  const url = new URL(req.url)
-  if (state.authenticated && state.token && url.host == state.host?.host) {
-    req.headers.append('Authorization', `Bearer ${state.token}`)
+self.addEventListener("fetch", function(event) {
+  const url = new URL(event.request.url)
+  console.log("checking", state.authenticated, !!state.token, url.host == state.host?.host)
+  if (state.authenticated && !!state.token && url.host == state.host?.host) {
+    console.log("Appending authorization header", event.request.method, event.request.url)
+    const req = new Request(event.request, {
+      method: event.request.method,
+      headers: { ...event.request.headers, 'Authorization': `Bearer ${state.token}` },
+      mode: "cors"
+    })
+    event.respondWith(fetch(req))
+    return fetch(req)
+  } else {
+    console.log("Ignoring", event.request.url)
+    event.respondWith(fetch(event.request))
+    return fetch(event.request)
   }
-  respondWith(fetch(req))
 })
 
+  ; (async () => {
+    while (true) {
+      channel.postMessage({ action: "requestState" })
+      await sleep(1000 * 3 * 60) // update the state every 3 minutes
+    }
+  })()

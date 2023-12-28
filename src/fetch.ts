@@ -15,7 +15,7 @@ export interface TempoQuery {
 
 type Fetch<T> = () => Promise<T>
 
-const fillUrl = (base: URL, query: TempoQuery): URL => {
+export const fillUrl = (base: URL, query: TempoQuery): URL => {
   const params: { [key: string]: string } = {}
   if (query.include) {
     params.include = query.include.join(',')
@@ -62,16 +62,16 @@ export const paginated = <T>(path: String, query: TempoQuery = {}, method = 'GET
   }
 }
 
-export const fetchBlob = (path: String, query: TempoQuery = {}, method = 'GET'): Fetch<Blob> => {
-  const server = useServer()
-  const url = fillUrl(server.url(path), query)
-
-  return async (): Promise<Blob> => {
-    const token = await server.token()
-    const res = await fetch(url, { method, headers: { 'Authorization': `Bearer ${token}` } });
-    return res.blob()
-  }
-}
+// export const fetchBlob = (path: String, query: TempoQuery = {}, method = 'GET'): Fetch<Blob> => {
+//   const server = useServer()
+//   const url = fillUrl(server.url(path), query)
+//
+//   return async (): Promise<Blob> => {
+//     const token = await server.token()
+//     const res = await fetch(url, { method, headers: { 'Authorization': `Bearer ${token}` } });
+//     return res.blob()
+//   }
+// }
 
 export const fetchMethod = async <T, B>(method: 'PUT' | 'PATCH' | 'POST', path: String, body: B): Promise<T> => {
   const server = useServer()
@@ -81,7 +81,8 @@ export const fetchMethod = async <T, B>(method: 'PUT' | 'PATCH' | 'POST', path: 
     method,
     headers: {
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/vnd.api+json'
+      'Content-Type': 'application/vnd.api+json',
+      'Accept': 'application/vnd.api+json'
     },
     body: JSON.stringify(body)
   });

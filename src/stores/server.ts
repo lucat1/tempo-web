@@ -79,7 +79,8 @@ export const useServer = defineStore('server', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/vnd.api+json'
+          'Content-Type': 'application/vnd.api+json',
+          'Accept': 'application/vnd.api+json'
         }
       })
       const res = await req.json()
