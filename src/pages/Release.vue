@@ -43,8 +43,8 @@ const tracks = computed(() =>
 )
 const duration = computed(() => tracks.value.reduce((counter, track) => counter + track.attributes.duration, 0))
 
-const play = (track: TrackResource) => {
-  player.play([track])
+const play = (tracks: TrackResource[], index: number) => {
+  player.play(tracks, index)
 }
 </script>
 
@@ -97,7 +97,7 @@ const play = (track: TrackResource) => {
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-base-100" v-for="track in tracksByMedium[i]" @click="play(track)">
+          <tr class="hover:bg-base-100" v-for="track, j in tracksByMedium[i]" @click="play(tracksByMedium[i], j)">
             <th>{{ track.attributes.track }}</th>
             <td class="truncate">{{ track.attributes.title }}</td>
             <td>
