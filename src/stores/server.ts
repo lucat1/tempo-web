@@ -3,7 +3,6 @@ import { useLocalStorage } from '@vueuse/core'
 
 import { AUTH_PATH, SERVER_PATH } from '@/constants/tempo'
 import type { ServerResource, AuthResource } from '@/types/tempo'
-import type { Message } from '@/types/service-worker'
 
 interface AuthData {
   username: string
@@ -110,32 +109,3 @@ export const useServer = defineStore('server', {
     },
   },
 })
-
-const workerChannel = new BroadcastChannel("sw")
-export const monitor = () => {
-  const store = useServer()
-
-  const sendState = async () => {
-    const host = store.url('/')
-    workerChannel.postMessage({
-      action: 'state', data: {
-        authenticated: store.authenticated,
-        host: host?.toString(),
-        token: await store.token(),
-      }
-    })
-  }
-
-  workerChannel.addEventListener('message', ({ data }: { data: Message }) => {
-    switch (data.action) {
-      case 'requestState':
-        sendState()
-        break
-
-      default:
-        console.trace("Ignoring sw channel message", data)
-    }
-  })
-
-  store.$subscribe(sendState, { detached: true })
-}

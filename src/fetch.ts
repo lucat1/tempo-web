@@ -6,6 +6,7 @@ export interface TempoQuery {
   filter?: {
     [k: string]: any
   }
+  authorization?: string
   page?: {
     after?: string
     before?: string
@@ -22,6 +23,9 @@ export const fillUrl = (base: URL, query: TempoQuery): URL => {
   }
   if (query.sort) {
     params.sort = query.sort.join(',')
+  }
+  if (query.authorization) {
+    params.authorization = query.authorization
   }
   if (query.filter) {
     for (const [key, value] of Object.entries(query.filter)) {
@@ -60,6 +64,12 @@ export const paginated = <T>(path: String, query: TempoQuery = {}, method = 'GET
     const nextQuery = { ...query, page: { ...query.page, after: pageParam } }
     return fetchJson<T>(path, nextQuery, method)()
   }
+}
+
+export const authenticatedURL = async (path: String, query: TempoQuery = {}) => {
+  const server = useServer()
+  const token = await server.token()
+  return fillUrl(server.url(path), { ...query, authorization: token })
 }
 
 // export const fetchBlob = (path: String, query: TempoQuery = {}, method = 'GET'): Fetch<Blob> => {

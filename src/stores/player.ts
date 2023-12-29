@@ -4,6 +4,7 @@ import { Gapless5 } from '@regosen/gapless-5'
 import { useServer } from '@/stores/server'
 import { TRACK_AUDIO_PATH } from '@/constants/tempo'
 import type { TrackResource } from '@/types/tempo'
+import { authenticatedURL } from '@/fetch'
 
 export const usePlayer = defineStore('player', {
   state: () => ({
@@ -38,10 +39,9 @@ export const usePlayer = defineStore('player', {
     }
   },
   actions: {
-    appendQueue(tracks: TrackResource[]) {
-      const server = useServer()
+    async appendQueue(tracks: TrackResource[]) {
       for (const track of tracks) {
-        const url = server.url(TRACK_AUDIO_PATH(track.id), {}).toString()
+        const url = (await authenticatedURL(TRACK_AUDIO_PATH(track.id))).toString()
         this._gapless5.addTrack(url)
         this._tracks.set(url, track)
       }

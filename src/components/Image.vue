@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { fillUrl } from '@/fetch'
-import { useServer } from '@/stores/server'
 import { IMAGE_FILE_PATH } from '@/constants/tempo'
+import { authenticatedURL } from '@/fetch'
 
 const props = defineProps({
   id: String,
 })
-const urlPath = IMAGE_FILE_PATH(props.id)
-const server = useServer()
-const url = fillUrl(server.url(urlPath), {})
+const url = await authenticatedURL(IMAGE_FILE_PATH(props.id))
 </script>
 
 <template>
